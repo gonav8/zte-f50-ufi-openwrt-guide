@@ -189,12 +189,9 @@ For a travel router, install the **Full version on the device**.
 
 ## Step 4 — Magisk App, SU Setup Using scrcpy
 
-### 4.1 Install Magisk Manager APK
+### 4.1 Set Up Magisk from Android
 
-After `flash-root_direct.bat` finishes, the Magisk **daemon** runs but the **Magisk Manager APK** is not yet installed. Install it from either:
-
-- The toolkit's linked APK: `https://pan.kanokano.cn/d/UFI-TOOLS-UPDATE/plugins/Magisk_28103.apk`
-- Official Magisk APK from the Magisk GitHub
+After `flash-root_direct.bat` finishes, open the F50's Android interface using scrcpy. Find and launch **Magisk** from the app list, then follow the prompts in the Magisk app to complete its installation and setup. If Magisk offers to install or update the app from its Android interface, complete that step there.
 
 ### 4.2 Launch scrcpy
 

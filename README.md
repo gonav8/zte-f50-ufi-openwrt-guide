@@ -98,7 +98,7 @@ The toolkit ships a documented, ordered sequence of scripts. **Run them in this 
 |---|---|---|---|
 | 1 | `backup_direct.bat` | Dump all partitions | ✅ **Required** |
 | 2 | `flash-rom_direct.bat` | Write B09 stock ROM | ✅ **Required** |
-| 3 | `flash-root_direct.bat` | Flash Magisk-patched boot | ⬜ Optional (recommended) |
+| 3 | `flash-root_direct.bat` | Flash Magisk-patched boot | ✅ **Required** for the OpenWrt installation path in this guide |
 | 4 | `unlock-bl.bat` | Patch trustos to disable verified boot | ✅ **Required** before step 5 |
 | 5 | `patch-modem.bat` | Enable modem write via AT commands | ⬜ Optional (legal risk) |
 
@@ -136,7 +136,7 @@ Writes two files:
 - `bin\magiskf50b09.img` → `boot` partition (pre-patched with Magisk)
 
 > This only makes sense **after** the device is already running stock **B09**.
-> The Magisk **daemon** is active after this step, but you still need to install the **Magisk Manager APK** on Android to use it (see Step 4).
+> The Magisk daemon and app are made available by this step. Open Magisk in Android and complete its setup (see Step 4).
 
 ### 2.5 What `unlock-bl.bat` Does
 
@@ -175,15 +175,31 @@ For a travel router, install the **Full version on the device**.
 
 ### 3.2 Install the APK
 
-1. Download the latest release from [pan.kanokano.cn/UFI-TOOLS-UPDATE](https://pan.kanokano.cn/UFI-TOOLS-UPDATE).
-2. Follow the installation instructions in the project's [`User_Doc.md`](https://github.com/kanoqwq/UFI-TOOLS/blob/http-server-version/User_Doc.md).
-3. The official F50 / U30 Air installation video is linked from the repo: [bilibili.com/video/BV1qUHpzeEDd](https://www.bilibili.com/video/BV1qUHpzeEDd)
+Install the **Full version on the F50 itself**. The project's [User_Doc](https://github.com/kanoqwq/UFI-TOOLS/blob/http-server-version/User_Doc.md) describes device-side installation; the steps below use ADB to install the downloaded APK directly, rather than the PC-side source-code installer.
 
-### 3.3 Configure UFI Tools
+1. Download the Full version APK from [UFI Tools updates](https://pan.kanokano.cn/UFI-TOOLS-UPDATE).
+2. Connect the PC to the F50 and make sure USB debugging is enabled. In Command Prompt, verify that ADB sees the device:
 
-1. Launch the app via scrcpy.
-2. Access the dashboard at `http://192.168.0.1:2333`.
-3. Per the project's User_Doc, deploy to the **device itself** for the most complete feature set — backend services, automation tasks, plugin system, and system-level control.
+   ```cmd
+   adb devices
+   ```
+
+3. Install the APK, replacing the example path with the path to the downloaded file:
+
+   ```cmd
+   adb install -r "C:\path\to\UFI-TOOLS.apk"
+   ```
+
+4. After installation completes, open UFI Tools from the F50's Android app list and complete any on-screen first-run prompts.
+5. For the official F50 / U30 Air installation walkthrough, see the [Bilibili video](https://www.bilibili.com/video/BV1qUHpzeEDd).
+
+### 3.3 Open the UFI Tools Dashboard
+
+1. Connect your phone or PC to the F50's Wi-Fi network.
+2. Open a browser and go to `http://192.168.0.1:2333`.
+3. Sign in when prompted. UFI Tools runs on the F50; scrcpy is not needed to access its web dashboard.
+
+The project's User_Doc recommends installing on the **device itself** for access to its backend services, automation tasks, plugin system, and system-level controls.
 
 ---
 
@@ -337,7 +353,7 @@ To trigger manually:
 Documented in the [mu300-linux README](https://github.com/dikeckaan/mu300-linux):
 
 - **Wi-Fi is single-band.** 5 GHz (802.11ac) **or** 2.4 GHz, one at a time — not both simultaneously. The ZTE official UI confirms this: only a toggle between bands is available.
-- **WPA3 is not supported.** The driver has no SAE support. Use WPA2-PSK (`psk2`) only. Using `sae-mixed` or `psk3` will break the AP and lock you out.
+- **Wi-Fi security/channel behavior needs verification.** An AP issue was observed with channel 36 and WPA2-PSK (`psk2`), but its cause has not been confirmed. It may relate to the security mode, changing the channel from 36 to 44, or the OpenWrt kernel. Do not treat this as evidence that WPA3 is unsupported; this point is pending further testing.
 - **Kernel 6.18** hangs at boot about once in 20 boots. Falls back to Android automatically.
 - **Never use OpenWrt's `sysupgrade`** or flash OpenWrt firmware images — they overwrite the device's storage. A normal `apk upgrade` is fine, **except** `kernel` and `kmod-*` packages.
 - **Vendor log noise.** The WCN driver floods the kernel log with `sc2355_dump_survey` and `sprd_cfg80211_change_beacon`. Cosmetic only — cannot be fixed without recompiling the module.

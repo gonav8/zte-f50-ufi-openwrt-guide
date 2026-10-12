@@ -173,25 +173,17 @@ UFI Tools has two forms:
 
 For a travel router, install the **Full version on the device**.
 
-### 3.2 Install the APK
+### 3.2 Install UFI Tools with the One-Click Installer
 
-Install the **Full version on the F50 itself**. The project's [User_Doc](https://github.com/kanoqwq/UFI-TOOLS/blob/http-server-version/User_Doc.md) describes device-side installation; the steps below use ADB to install the downloaded APK directly, rather than the PC-side source-code installer.
+This guide's tested workflow uses **wired ADB** and the **UFI-TOOLS One-Click Installer** to deploy the Full version to the F50 itself. It does not use the PC-side source-code `install.cmd` method.
 
-1. Download the Full version APK from [UFI Tools updates](https://pan.kanokano.cn/UFI-TOOLS-UPDATE).
-2. Connect the PC to the F50 and make sure USB debugging is enabled. In Command Prompt, verify that ADB sees the device:
+1. Connect the F50 to your Windows PC with a USB cable and open the ZTE administration page: `http://192.168.0.1/index.html#usb_port`.
+2. Enable **USB debugging** in the ZTE UI.
+3. Confirm the PC can see the device over wired ADB. For example, run `adb devices` from Command Prompt and approve the debugging prompt on the F50 if one appears.
+4. Download the [UFI-TOOLS One-Click Installer](https://pan.kanokano.cn/UFI-TOOLS-UPDATE/UFI-TOOLS%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85%E5%99%A8) and the corresponding installer package if it is provided separately. Run the installer and follow its prompts to complete deployment to the F50.
+5. Keep the USB connection and power stable until deployment finishes. Afterward, connect a phone or PC to the F50's Wi-Fi and open the [UFI Tools dashboard](http://192.168.0.1:2333) in a browser.
 
-   ```cmd
-   adb devices
-   ```
-
-3. Install the APK, replacing the example path with the path to the downloaded file:
-
-   ```cmd
-   adb install -r "C:\path\to\UFI-TOOLS.apk"
-   ```
-
-4. After installation completes, open UFI Tools from the F50's Android app list and complete any on-screen first-run prompts.
-5. For the official F50 / U30 Air installation walkthrough, see the [Bilibili video](https://www.bilibili.com/video/BV1qUHpzeEDd).
+For the official F50 / U30 Air installation walkthrough, see the [Bilibili video](https://www.bilibili.com/video/BV1qUHpzeEDd). For other supported connection methods and troubleshooting, see the project's [User_Doc](https://github.com/kanoqwq/UFI-TOOLS/blob/http-server-version/User_Doc.md).
 
 ### 3.3 Open the UFI Tools Dashboard
 
